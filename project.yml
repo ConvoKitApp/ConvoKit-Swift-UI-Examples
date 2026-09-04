@@ -1,0 +1,41 @@
+name: ConvoKitSwiftExample
+options:
+  bundleIdPrefix: app.convokit.examples
+  deploymentTarget:
+    iOS: "15.0"
+packages:
+  ConvoKit:
+    url: https://github.com/ConvoKitApp/ConvoKit-Swift-Package
+    exactVersion: 0.1.2
+targets:
+  ConvoKitSwiftExample:
+    type: application
+    platform: iOS
+    sources:
+      - ConvoKitExample/Sources
+    dependencies:
+      - package: ConvoKit
+        product: ConvoKit
+      - package: ConvoKit
+        product: ConvoKitUI
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.convokit.examples.swiftui
+        PRODUCT_NAME: ConvoKit Swift
+        CURRENT_PROJECT_VERSION: 1
+        MARKETING_VERSION: 0.1.2
+        SWIFT_VERSION: 5.0
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: ConvoKit Swift
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        TARGETED_DEVICE_FAMILY: 1
+        CODE_SIGNING_ALLOWED: NO
+schemes:
+  ConvoKitSwiftExample:
+    build:
+      targets:
+        ConvoKitSwiftExample: all
+    run:
+      config: Debug

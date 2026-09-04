@@ -1,0 +1,16 @@
+name: iOS example
+
+on:
+  pull_request:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build example from the public binary package
+        run: xcodebuild -project ConvoKitSwiftExample.xcodeproj -scheme ConvoKitSwiftExample -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build

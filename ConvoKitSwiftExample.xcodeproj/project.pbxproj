@@ -1,0 +1,355 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0C7BEE01ED8C8F1658F05C46 /* DemoRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94617982E561D9CA25C400C /* DemoRootView.swift */; };
+		30A3D79A257898A43E9EFCF8 /* LiveChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BB76DB8F10042F8B438366 /* LiveChatView.swift */; };
+		410AA0C66E28A71FA1FA520D /* ConvoKitSwiftExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F72B9B5C1DA988DD28F578 /* ConvoKitSwiftExampleApp.swift */; };
+		59FC504EBCA3E749D56E0483 /* ConvoKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 381B10AAAEEE72A8B5B905F9 /* ConvoKitUI */; };
+		845131E2C80718195D473787 /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF594788786EE771AADA3A23 /* SampleData.swift */; };
+		CCD3CC6D206733DB8EA5C65F /* ConvoKit in Frameworks */ = {isa = PBXBuildFile; productRef = 276DD5F2D326C6A0BED60392 /* ConvoKit */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0DF6404BC8BDE242CF002A69 /* ConvoKitSwiftExample.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = ConvoKitSwiftExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		31BB76DB8F10042F8B438366 /* LiveChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveChatView.swift; sourceTree = "<group>"; };
+		33F72B9B5C1DA988DD28F578 /* ConvoKitSwiftExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvoKitSwiftExampleApp.swift; sourceTree = "<group>"; };
+		A94617982E561D9CA25C400C /* DemoRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoRootView.swift; sourceTree = "<group>"; };
+		FF594788786EE771AADA3A23 /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9B0B9FAEA8EACDB66B24FBEB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CCD3CC6D206733DB8EA5C65F /* ConvoKit in Frameworks */,
+				59FC504EBCA3E749D56E0483 /* ConvoKitUI in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3DD9E2E58AECF5834511F3A6 = {
+			isa = PBXGroup;
+			children = (
+				EA982FB14E47692469612341 /* Sources */,
+				6717FE5DA3039438D9B35DD8 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6717FE5DA3039438D9B35DD8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0DF6404BC8BDE242CF002A69 /* ConvoKitSwiftExample.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EA982FB14E47692469612341 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				33F72B9B5C1DA988DD28F578 /* ConvoKitSwiftExampleApp.swift */,
+				A94617982E561D9CA25C400C /* DemoRootView.swift */,
+				31BB76DB8F10042F8B438366 /* LiveChatView.swift */,
+				FF594788786EE771AADA3A23 /* SampleData.swift */,
+			);
+			name = Sources;
+			path = ConvoKitExample/Sources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		505A36DE97B2F4C14C030EE5 /* ConvoKitSwiftExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 88B569692276907E26998E51 /* Build configuration list for PBXNativeTarget "ConvoKitSwiftExample" */;
+			buildPhases = (
+				350D02E7D00A6700272D50CB /* Sources */,
+				9B0B9FAEA8EACDB66B24FBEB /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ConvoKitSwiftExample;
+			packageProductDependencies = (
+				276DD5F2D326C6A0BED60392 /* ConvoKit */,
+				381B10AAAEEE72A8B5B905F9 /* ConvoKitUI */,
+			);
+			productName = ConvoKitSwiftExample;
+			productReference = 0DF6404BC8BDE242CF002A69 /* ConvoKitSwiftExample.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E965EC2C0AC5B6BCF61C2D5E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+				};
+			};
+			buildConfigurationList = E70CAB61975E0C2022107B98 /* Build configuration list for PBXProject "ConvoKitSwiftExample" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 3DD9E2E58AECF5834511F3A6;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				D1F39639A3ADCF1642348617 /* XCRemoteSwiftPackageReference "ConvoKit-Swift-Package" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 6717FE5DA3039438D9B35DD8 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				505A36DE97B2F4C14C030EE5 /* ConvoKitSwiftExample */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		350D02E7D00A6700272D50CB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				410AA0C66E28A71FA1FA520D /* ConvoKitSwiftExampleApp.swift in Sources */,
+				0C7BEE01ED8C8F1658F05C46 /* DemoRootView.swift in Sources */,
+				30A3D79A257898A43E9EFCF8 /* LiveChatView.swift in Sources */,
+				845131E2C80718195D473787 /* SampleData.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		9FDE9011631D0D91F9FB2B35 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		B1F103114F8AC08BC9A4651B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "ConvoKit Swift";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.1.2;
+				PRODUCT_BUNDLE_IDENTIFIER = app.convokit.examples.swiftui;
+				PRODUCT_NAME = "ConvoKit Swift";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		D31D29A5A46E6285C09A1363 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		FDCF7D14EF1F8D4A5552C462 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "ConvoKit Swift";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.1.2;
+				PRODUCT_BUNDLE_IDENTIFIER = app.convokit.examples.swiftui;
+				PRODUCT_NAME = "ConvoKit Swift";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		88B569692276907E26998E51 /* Build configuration list for PBXNativeTarget "ConvoKitSwiftExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B1F103114F8AC08BC9A4651B /* Debug */,
+				FDCF7D14EF1F8D4A5552C462 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E70CAB61975E0C2022107B98 /* Build configuration list for PBXProject "ConvoKitSwiftExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D31D29A5A46E6285C09A1363 /* Debug */,
+				9FDE9011631D0D91F9FB2B35 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D1F39639A3ADCF1642348617 /* XCRemoteSwiftPackageReference "ConvoKit-Swift-Package" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ConvoKitApp/ConvoKit-Swift-Package";
+			requirement = {
+				kind = exactVersion;
+				version = 0.1.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		276DD5F2D326C6A0BED60392 /* ConvoKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1F39639A3ADCF1642348617 /* XCRemoteSwiftPackageReference "ConvoKit-Swift-Package" */;
+			productName = ConvoKit;
+		};
+		381B10AAAEEE72A8B5B905F9 /* ConvoKitUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1F39639A3ADCF1642348617 /* XCRemoteSwiftPackageReference "ConvoKit-Swift-Package" */;
+			productName = ConvoKitUI;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = E965EC2C0AC5B6BCF61C2D5E /* Project object */;
+}
