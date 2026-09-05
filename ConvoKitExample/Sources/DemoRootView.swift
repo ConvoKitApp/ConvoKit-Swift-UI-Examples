@@ -1,6 +1,7 @@
 import ConvoKit
 import ConvoKitUI
 import SwiftUI
+import UIKit
 
 struct DemoRootView: View {
     @State private var mode: DemoMode
@@ -12,103 +13,230 @@ struct DemoRootView: View {
     }
 
     var body: some View {
-        NavigationView {
-            VStack(spacing: 0) {
-                Picker("Example", selection: $mode) {
-                    ForEach(DemoMode.allCases) { Text($0.title).tag($0) }
-                }
-                .pickerStyle(.segmented).padding(12).background(.white)
-                Group {
-                    switch mode {
-                    case .standard: StandardComponentsView()
-                    case .branded: BrandedConversationView()
-                    case .compact: CompactConversationView()
-                    case .live: LiveChatView()
-                    }
-                }
+        TabView(selection: $mode) {
+            StandardComponentsView()
+                .tabItem { Label(DemoMode.standard.title, systemImage: DemoMode.standard.icon) }
+                .tag(DemoMode.standard)
+
+            BrandedConversationView()
+                .tabItem { Label(DemoMode.branded.title, systemImage: DemoMode.branded.icon) }
+                .tag(DemoMode.branded)
+
+            CompactConversationView()
+                .tabItem { Label(DemoMode.compact.title, systemImage: DemoMode.compact.icon) }
+                .tag(DemoMode.compact)
+
+            NavigationView {
+                LiveChatView()
+                    .navigationTitle("Join a room")
             }
-            .navigationTitle("ConvoKit SwiftUI")
-            .navigationBarTitleDisplayMode(.inline)
+            .navigationViewStyle(.stack)
+            .tabItem { Label(DemoMode.live.title, systemImage: DemoMode.live.icon) }
+            .tag(DemoMode.live)
         }
-        .navigationViewStyle(.stack)
+        .tint(.blue)
     }
 }
 
 enum DemoMode: String, CaseIterable, Identifiable {
     case standard, branded, compact, live
+
     var id: String { rawValue }
-    var title: String { rawValue.capitalized }
+    var title: String {
+        switch self {
+        case .standard: "Chats"
+        case .branded: "Support"
+        case .compact: "Ops"
+        case .live: "Live"
+        }
+    }
+    var icon: String {
+        switch self {
+        case .standard: "bubble.left.and.bubble.right"
+        case .branded: "headphones"
+        case .compact: "rectangle.3.group"
+        case .live: "bolt.horizontal.circle"
+        }
+    }
 }
 
 struct StandardComponentsView: View {
+    @State private var selectedConversation: Conversation?
+
     var body: some View {
-        VStack(spacing: 12) {
-            VStack(alignment: .leading, spacing: 6) {
-                Label("ConversationListView", systemImage: "list.bullet.rectangle").font(.caption.weight(.semibold)).foregroundStyle(.secondary)
-                ConversationListView(conversations: SampleData.conversations, selectedConversationId: SampleData.launch.id, onSelect: { _ in })
-                    .frame(height: 178).clipShape(RoundedRectangle(cornerRadius: 18)).overlay(RoundedRectangle(cornerRadius: 18).stroke(.black.opacity(0.07)))
+        NavigationView {
+            ConversationListView(
+                conversations: SampleData.conversations,
+                selectedConversationId: selectedConversation?.id,
+                onSelect: { selectedConversation = $0 }
+            )
+            .navigationTitle("Messages")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {}) {
+                        Image(systemName: "square.and.pencil")
+                    }
+                    .accessibilityLabel("New conversation")
+                }
             }
-            VStack(alignment: .leading, spacing: 6) {
-                Label("ConversationView", systemImage: "bubble.left.and.bubble.right").font(.caption.weight(.semibold)).foregroundStyle(.secondary)
-                ConversationView(
-                    conversation: SampleData.launch, messages: SampleData.messages, currentUserId: "maya",
-                    readAtByUserId: ["alex": SampleData.now],
-                    configuration: .init(showsHeader: true, showsAvatars: true, showsTimestamps: true, showsReadReceipts: true, messageMaxWidth: 250),
-                    onSendMessage: { _ in true }, mediaDataProvider: { _ in SampleData.imageData() }
-                )
-                .clipShape(RoundedRectangle(cornerRadius: 18)).overlay(RoundedRectangle(cornerRadius: 18).stroke(.black.opacity(0.07)))
+            .background(navigationLink)
+        }
+        .navigationViewStyle(.stack)
+    }
+
+    private var navigationLink: some View {
+        NavigationLink(
+            isActive: Binding(
+                get: {
+                    if case .some = selectedConversation { return true }
+                    return false
+                },
+                set: { if !$0 { selectedConversation = nil } }
+            )
+        ) {
+            Group {
+                if let selectedConversation {
+                    NativeConversationScreen(conversation: selectedConversation)
+                }
             }
-        }.padding(12).background(Color(red: 0.95, green: 0.97, blue: 0.97))
+        } label: {
+            EmptyView()
+        }
+        .hidden()
+    }
+}
+
+private struct NativeConversationScreen: View {
+    let conversation: Conversation
+
+    var body: some View {
+        ConversationView(
+            conversation: conversation,
+            messages: SampleData.messages,
+            currentUserId: "maya",
+            readAtByUserId: ["alex": SampleData.now],
+            configuration: .init(showsHeader: false),
+            onSendMessage: { _ in true },
+            mediaDataProvider: { _ in SampleData.imageData() }
+        )
+        .navigationTitle(conversation.displayTitle)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: {}) {
+                    Image(systemName: "person.2")
+                }
+                .accessibilityLabel("Conversation details")
+            }
+        }
     }
 }
 
 struct BrandedConversationView: View {
     private let theme = ConvoKitTheme(
-        accent: Color(red: 0.48, green: 0.24, blue: 0.91),
-        background: Color(red: 0.97, green: 0.95, blue: 1),
-        surface: .white,
-        incomingBubble: Color(red: 0.92, green: 0.88, blue: 1),
-        outgoingBubble: Color(red: 0.48, green: 0.24, blue: 0.91),
-        cornerRadius: 22
+        accent: .indigo,
+        incomingBubble: Color(uiColor: .secondarySystemBackground),
+        outgoingBubble: .indigo,
+        cornerRadius: 18
     )
 
     var body: some View {
-        ConversationView(
-            conversation: SampleData.support,
-            messages: SampleData.messages,
-            currentUserId: "maya",
-            typingUserIds: ["alex"],
-            readAtByUserId: ["alex": SampleData.now],
-            configuration: .init(composerPlaceholder: "Reply to the customer"),
-            onSendMessage: { _ in true },
-            mediaDataProvider: { _ in SampleData.imageData() },
-            header: { room in AnyView(
-                HStack {
-                    ZStack { Circle().fill(.white.opacity(0.2)); Image(systemName: "sparkles").foregroundStyle(.white) }.frame(width: 42, height: 42)
-                    VStack(alignment: .leading) { Text("ACME SUPPORT").font(.caption.weight(.bold)); Text(room.displayTitle).font(.headline) }
-                    Spacer(); Text("ONLINE").font(.caption2.weight(.bold)).padding(.horizontal, 8).padding(.vertical, 5).background(.green).clipShape(Capsule())
-                }.foregroundStyle(.white).padding().background(Color(red: 0.30, green: 0.12, blue: 0.65))
-            ) }
-        ).convoKitTheme(theme)
+        NavigationView {
+            ConversationView(
+                conversation: SampleData.support,
+                messages: SampleData.messages,
+                currentUserId: "maya",
+                typingUserIds: ["alex"],
+                readAtByUserId: ["alex": SampleData.now],
+                configuration: .init(showsHeader: false, composerPlaceholder: "Reply to the customer"),
+                onSendMessage: { _ in true },
+                mediaDataProvider: { _ in SampleData.imageData() }
+            )
+            .convoKitTheme(theme)
+            .navigationTitle("Customer support")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Label("Online", systemImage: "circle.fill")
+                        .font(.caption)
+                        .foregroundStyle(.green)
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Menu {
+                        Button("View customer", systemImage: "person") {}
+                        Button("Conversation details", systemImage: "info.circle") {}
+                    } label: {
+                        Image(systemName: "ellipsis.circle")
+                    }
+                }
+            }
+        }
+        .navigationViewStyle(.stack)
+        .tint(.indigo)
     }
 }
 
 struct CompactConversationView: View {
     var body: some View {
-        ConversationView(
-            conversation: SampleData.launch, messages: SampleData.messages, currentUserId: "maya",
-            readAtByUserId: ["alex": SampleData.now],
-            configuration: .init(showsHeader: true, showsAvatars: false, showsTimestamps: false, showsReadReceipts: true, messageMaxWidth: 290, composerPlaceholder: "Message ops"),
-            onSendMessage: { _ in true }, mediaDataProvider: { _ in SampleData.imageData() },
-            messageView: { context in AnyView(
-                HStack(spacing: 8) {
-                    Text(context.sender?.name.components(separatedBy: " ").first ?? context.message.senderId).font(.caption.weight(.bold)).frame(width: 42, alignment: .leading)
-                    Text(context.message.text ?? context.message.media.first?.name ?? "Attachment").font(.subheadline).lineLimit(2)
-                    Spacer(); if !context.readerIds.isEmpty { Image(systemName: "checkmark.done").font(.caption).foregroundStyle(.green) }
-                }.padding(10).background(context.isCurrentUser ? Color.green.opacity(0.12) : Color.white).clipShape(RoundedRectangle(cornerRadius: 9))
-            ) }
-        )
-        .convoKitDensity(.compact)
-        .convoKitTheme(ConvoKitTheme(accent: .green, background: Color(red: 0.94, green: 0.96, blue: 0.94), outgoingBubble: .green, cornerRadius: 10))
+        NavigationView {
+            ConversationView(
+                conversation: SampleData.launch,
+                messages: SampleData.messages,
+                currentUserId: "maya",
+                readAtByUserId: ["alex": SampleData.now],
+                configuration: .init(
+                    showsHeader: false,
+                    showsAvatars: false,
+                    showsTimestamps: false,
+                    showsReadReceipts: true,
+                    messageMaxWidth: 320,
+                    composerPlaceholder: "Message operations"
+                ),
+                onSendMessage: { _ in true },
+                mediaDataProvider: { _ in SampleData.imageData() },
+                messageView: { context in AnyView(OperationsMessageRow(context: context)) }
+            )
+            .convoKitDensity(.compact)
+            .navigationTitle("Launch operations")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {}) {
+                        Label("Details", systemImage: "info.circle")
+                    }
+                    .accessibilityLabel("Room details")
+                }
+            }
+        }
+        .navigationViewStyle(.stack)
+    }
+}
+
+private struct OperationsMessageRow: View {
+    let context: MessageContext
+
+    var body: some View {
+        HStack(alignment: .firstTextBaseline, spacing: 10) {
+            Text(context.isCurrentUser ? "You" : firstName)
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.secondary)
+                .frame(width: 44, alignment: .leading)
+            Text(context.message.text ?? context.message.media.first?.name ?? "Attachment")
+                .font(.subheadline)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            if !context.readerIds.isEmpty {
+                Image(systemName: "checkmark.circle.fill")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .accessibilityLabel("Read")
+            }
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 9)
+        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+    }
+
+    private var firstName: String {
+        context.sender?.name.components(separatedBy: " ").first ?? context.message.senderId
     }
 }

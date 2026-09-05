@@ -2,11 +2,11 @@
 
 A public iOS example app for the compiled `ConvoKit` and `ConvoKitUI` Swift package products. The SDK implementation remains private.
 
-The app includes four modes:
+The app uses a native iOS tab bar and navigation stacks for four examples:
 
-- **Standard** shows `ConversationListView` and `ConversationView` as independent controlled components.
-- **Branded** demonstrates a custom theme and header slot.
-- **Compact** demonstrates dense, host-rendered message rows.
+- **Chats** shows `ConversationListView` as a standard Messages-style inbox and pushes a native conversation screen.
+- **Support** demonstrates brand tinting without replacing the navigation bar or system controls.
+- **Ops** demonstrates dense, host-rendered message rows inside a normal iOS conversation screen.
 - **Live** joins an authorized room through the demo backend and opens the SDK-backed realtime component.
 
 ![Standard components](doc/screenshots/standard-components.png)

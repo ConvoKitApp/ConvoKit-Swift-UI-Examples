@@ -17,8 +17,23 @@ enum SampleData {
         description: "Priority inbox", participants: [maya, alex],
         createdAt: now.addingTimeInterval(-172_800), updatedAt: now.addingTimeInterval(-120)
     )
+    static let design = Conversation(
+        id: "design-room", title: "Design review", appId: "demo", displayTitle: "Design review",
+        description: "New onboarding flow", participants: [maya, sam],
+        createdAt: now.addingTimeInterval(-259_200), updatedAt: now.addingTimeInterval(-1_800)
+    )
+    static let incident = Conversation(
+        id: "incident-room", title: "Incident response", appId: "demo", displayTitle: "Incident response",
+        description: "API status and customer updates", participants: [maya, alex, sam],
+        createdAt: now.addingTimeInterval(-345_600), updatedAt: now.addingTimeInterval(-7_200)
+    )
+    static let research = Conversation(
+        id: "research-room", title: "User research", appId: "demo", displayTitle: "User research",
+        description: "September interview notes", participants: [maya, alex],
+        createdAt: now.addingTimeInterval(-432_000), updatedAt: now.addingTimeInterval(-86_400)
+    )
 
-    static let conversations = [launch, support]
+    static let conversations = [launch, support, design, incident, research]
     static let messages = [
         Message(id: "m1", conversationId: launch.id, senderId: alex.appUserId, text: "The new onboarding is ready for review.", createdAt: now.addingTimeInterval(-420)),
         Message(id: "m2", conversationId: launch.id, senderId: maya.appUserId, text: "Looks great. I added the latest product shot.", media: [.image(name: "onboarding.png", url: "https://cdn.example.com/onboarding.png", size: 184_320)], createdAt: now.addingTimeInterval(-300)),
