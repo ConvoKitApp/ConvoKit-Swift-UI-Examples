@@ -32,7 +32,7 @@ struct LiveChatView: View {
         busy = true; error = nil
         do {
             try await DemoBroker.join(roomId: roomId, userId: userId)
-            let value = try ConvoKitClient(backendURL: URL(string: "https://convokit-backend.onrender.com")!, clientId: DemoBroker.clientId) { userId in
+            let value = try ConvoKitClient(clientId: DemoBroker.clientId) { userId in
                 try await DemoBroker.token(userId: userId)
             }
             try await value.connectUser(userId)
