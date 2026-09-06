@@ -6,7 +6,7 @@ options:
 packages:
   ConvoKit:
     url: https://github.com/ConvoKitApp/ConvoKit-Swift-Package
-    exactVersion: 0.2.1
+    exactVersion: 0.2.3
 targets:
   ConvoKitSwiftExample:
     type: application
@@ -23,7 +23,7 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: app.convokit.examples.swiftui
         PRODUCT_NAME: ConvoKit Swift
         CURRENT_PROJECT_VERSION: 1
-        MARKETING_VERSION: 0.2.1
+        MARKETING_VERSION: 0.2.3
         SWIFT_VERSION: 5.0
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: ConvoKit Swift
