@@ -41,20 +41,26 @@ enum SampleData {
         Message(id: "m4", conversationId: launch.id, senderId: maya.appUserId, text: "Perfect. We are cleared for Friday.", createdAt: now.addingTimeInterval(-40)),
     ]
 
-    /// Inbox summaries as `listInbox` would return them for Maya: the newest message, her unread count and read position, and the activity time that orders the list.
+    /// Inbox summaries as `listInbox` would return them for Maya: the newest message, her unread count and read position, her private
+    /// mark-unread state (`unreadMarkedAt`, `privateStateVersion`, `isUnread`) and the activity time that orders the list. The research room
+    /// is read (count 0) but marked unread, so the default row renders the numberless dot instead of a badge.
     static let summaries: [String: InboxSummary] = [
         launch.id: summary(latest: messages[3], read: true),
         support.id: summary(latest: Message(id: "m5", conversationId: support.id, senderId: alex.appUserId, text: "Can you confirm the refund went through?", createdAt: now.addingTimeInterval(-120)), unread: 2),
         design.id: summary(latest: Message(id: "m6", conversationId: design.id, senderId: sam.appUserId, media: [.image(name: "onboarding-v2.png", url: "https://cdn.example.com/onboarding-v2.png", size: 204_800)], createdAt: now.addingTimeInterval(-1_800)), unread: 1),
         incident.id: summary(latest: Message(id: "m7", conversationId: incident.id, senderId: alex.appUserId, text: "Status page updated. Monitoring for another 30 minutes.", createdAt: now.addingTimeInterval(-7_200)), unread: 120),
-        research.id: summary(latest: Message(id: "m8", conversationId: research.id, senderId: maya.appUserId, media: [.file(name: "interview-notes.pdf", url: "https://cdn.example.com/interview-notes.pdf", size: 512_000)], createdAt: now.addingTimeInterval(-86_400)), read: true),
+        research.id: summary(latest: Message(id: "m8", conversationId: research.id, senderId: maya.appUserId, media: [.file(name: "interview-notes.pdf", url: "https://cdn.example.com/interview-notes.pdf", size: 512_000)], createdAt: now.addingTimeInterval(-86_400)), read: true, markedUnread: true),
     ]
 
-    private static func summary(latest: Message, unread: Int = 0, read: Bool = false) -> InboxSummary {
-        InboxSummary(
+    /// `markedUnread` stamps the private marker (version 1, marked ten minutes ago); `isUnread` follows the wire rule
+    /// `unreadCount > 0 || unreadCountCapped || unreadMarkedAt != nil` and the count stays what it is.
+    private static func summary(latest: Message, unread: Int = 0, read: Bool = false, markedUnread: Bool = false) -> InboxSummary {
+        let unreadMarkedAt = markedUnread ? now.addingTimeInterval(-600) : nil
+        return InboxSummary(
             latestMessage: latest, unreadCount: unread,
             readPosition: read ? ReadPosition(messageId: latest.id, createdAt: latest.createdAt) : nil, lastReadAt: read ? now : nil,
-            activityAt: latest.createdAt
+            activityAt: latest.createdAt,
+            unreadMarkedAt: unreadMarkedAt, privateStateVersion: markedUnread ? 1 : 0, isUnread: unread > 0 || unreadMarkedAt != nil
         )
     }
 

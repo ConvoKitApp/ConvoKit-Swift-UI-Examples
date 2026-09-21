@@ -4,10 +4,10 @@ A public iOS example app for the compiled `ConvoKit` and `ConvoKitUI` Swift pack
 
 The app uses a native iOS tab bar and navigation stacks for four examples:
 
-- **Chats** shows `ConversationListView` as a standard Messages-style inbox with latest-message previews, activity times and unread badges from `InboxSummary` values, and pushes a native conversation screen.
+- **Chats** shows `ConversationListView` as a standard Messages-style inbox with latest-message previews, activity times and unread badges from `InboxSummary` values, and pushes a native conversation screen. One room is read but privately marked unread (`isUnread` with a count of 0), so the package's default row renders its numberless dot (accessible name `Unread`) instead of a badge.
 - **Support** demonstrates brand tinting without replacing the navigation bar or system controls.
 - **Ops** demonstrates dense, host-rendered message rows inside a normal iOS conversation screen.
-- **Live** joins an authorized room through the demo backend and opens the SDK-backed inbox (`ConvoKitConversationList`) with the joined room on top; previews and unread counts come from the released package.
+- **Live** joins an authorized room through the demo backend and opens the SDK-backed inbox (`ConvoKitConversationList`) with the joined room on top; previews, unread counts and the private mark-unread state come from the released package. A custom `row:` adds a leading swipe action, **Mark unread**, that calls `ConversationListController.markUnread(_:)` on the controller handed over by `onController`; the controller patches the row's summary (dot on, `privateStateVersion` bumped), other devices catch up through `inbox_activity`, and opening the room acknowledges with the version captured at open, which clears the marker.
 
 ![Standard components](doc/screenshots/standard-components.png)
 

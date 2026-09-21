@@ -3,12 +3,16 @@ import ConvoKitUI
 import SwiftUI
 
 /// Joins a room through the demo broker, then shows the SDK-backed inbox
-/// (`ConvoKitConversationList` renders previews, activity times and unread
-/// badges itself) with the joined room pushed on top of it.
+/// (`ConvoKitConversationList` serves previews, activity times, unread counts
+/// and the private mark-unread state itself) with the joined room pushed on
+/// top of it. The package ships no row affordance for "mark unread", so the
+/// list uses a custom `row:` that adds a swipe action calling the wrapper's
+/// `ConversationListController`, handed over once through `onController`.
 struct LiveChatView: View {
     @State private var userId = "swift_guest"
     @State private var roomId = ""
     @State private var client: ConvoKitClient?
+    @State private var inbox: ConversationListController?
     @State private var openRoomId: String?
     @State private var openRoom: Conversation?
     @State private var busy = false
@@ -17,9 +21,14 @@ struct LiveChatView: View {
     var body: some View {
         ZStack {
             if let client {
-                ConvoKitConversationList(client: client, selectedConversationId: openRoomId, onSelect: { openRoom = $0; openRoomId = $0.id })
-                    .navigationTitle("Inbox")
-                    .toolbar { ToolbarItem(placement: .navigationBarTrailing) { Button("Leave", action: disconnect) } }
+                ConvoKitConversationList(client: client, selectedConversationId: openRoomId, onSelect: { openRoom = $0; openRoomId = $0.id }, row: { context in
+                    AnyView(LiveInboxRow(context: context).swipeActions(edge: .leading) {
+                        Button { Task { await inbox?.markUnread(context.conversation.id) } } label: { Label("Mark unread", systemImage: "envelope.badge") }
+                            .tint(.blue)
+                    })
+                }, onController: { inbox = $0 })
+                .navigationTitle("Inbox")
+                .toolbar { ToolbarItem(placement: .navigationBarTrailing) { Button("Leave", action: disconnect) } }
             } else {
                 Form {
                     Section("Open chatroom") {
@@ -60,7 +69,52 @@ struct LiveChatView: View {
         busy = false
     }
 
-    private func disconnect() { Task { await client?.disconnectUser(); client = nil; openRoomId = nil; openRoom = nil } }
+    private func disconnect() { Task { await client?.disconnectUser(); client = nil; inbox = nil; openRoomId = nil; openRoom = nil } }
+}
+
+/// A host-rendered inbox row over the summary the list controller keeps for
+/// the conversation: the count badge (`99+` when capped) while messages are
+/// unread, otherwise the numberless dot when the room is only marked unread
+/// (`isUnread` with a count of 0), and a bold title in both cases. The
+/// controller patches `isUnread`, `unreadMarkedAt` and `privateStateVersion`
+/// after `markUnread`, and the same room's acknowledgement clears them.
+private struct LiveInboxRow: View {
+    let context: ConversationItemContext
+    @Environment(\.convoKitTheme) private var theme
+
+    var body: some View {
+        let conversation = context.conversation, summary = context.summary
+        let unread = summary?.isUnread ?? false
+        HStack(spacing: 12) {
+            ConvoKitAvatar(name: conversation.displayTitle, imageURL: conversation.imageUrl)
+            VStack(alignment: .leading, spacing: 4) {
+                Text(conversation.displayTitle).font(unread ? .headline.weight(.bold) : .headline).foregroundStyle(.primary).lineLimit(1)
+                Text(preview ?? conversation.description ?? "No messages yet").font(.subheadline).foregroundStyle(theme.secondaryText).lineLimit(1)
+            }
+            Spacer()
+            VStack(alignment: .trailing, spacing: 6) {
+                Text(summary?.activityAt ?? conversation.updatedAt, style: .time).font(.caption2).foregroundStyle(theme.secondaryText)
+                if let summary, summary.unreadCount > 0 || summary.unreadCountCapped {
+                    Text(summary.unreadCountCapped || summary.unreadCount > 99 ? "99+" : String(summary.unreadCount))
+                        .font(.caption2.weight(.semibold)).foregroundStyle(theme.outgoingText).padding(.horizontal, 6).padding(.vertical, 2)
+                        .background(Capsule().fill(theme.badge))
+                        .accessibilityLabel(summary.unreadCountCapped ? "99+ unread" : "\(summary.unreadCount) unread")
+                } else if unread {
+                    Circle().fill(theme.badge).frame(width: 8, height: 8).accessibilityLabel("Unread")
+                }
+            }
+        }
+        .padding(.vertical, 4)
+        .contentShape(Rectangle())
+    }
+
+    private var preview: String? {
+        guard let message = context.summary?.latestMessage else { return nil }
+        let body = message.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let text = body.isEmpty ? (message.media.first?.name ?? (message.media.isEmpty ? "" : "Attachment")) : body
+        guard !text.isEmpty else { return nil }
+        return message.senderId == context.currentUserId ? "You: " + text : text
+    }
 }
 
 enum DemoBroker {
