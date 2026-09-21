@@ -2,18 +2,24 @@ import ConvoKit
 import ConvoKitUI
 import SwiftUI
 
+/// Joins a room through the demo broker, then shows the SDK-backed inbox
+/// (`ConvoKitConversationList` renders previews, activity times and unread
+/// badges itself) with the joined room pushed on top of it.
 struct LiveChatView: View {
     @State private var userId = "swift_guest"
     @State private var roomId = ""
     @State private var client: ConvoKitClient?
-    @State private var connectedRoomId: String?
+    @State private var openRoomId: String?
+    @State private var openRoom: Conversation?
     @State private var busy = false
     @State private var error: String?
 
     var body: some View {
-        Group {
-            if let client, let connectedRoomId, let chat = try? ConvoKitConversation(client: client, conversationId: connectedRoomId, onBack: disconnect) {
-                chat
+        ZStack {
+            if let client {
+                ConvoKitConversationList(client: client, selectedConversationId: openRoomId, onSelect: { openRoom = $0; openRoomId = $0.id })
+                    .navigationTitle("Inbox")
+                    .toolbar { ToolbarItem(placement: .navigationBarTrailing) { Button("Leave", action: disconnect) } }
             } else {
                 Form {
                     Section("Open chatroom") {
@@ -24,8 +30,21 @@ struct LiveChatView: View {
                     Section { Text("The example sends only the public client ID to the demo broker. The ConvoKit client secret stays on the backend.").font(.footnote).foregroundStyle(.secondary) }
                     if let error { Section { Text(error).foregroundStyle(.red) } }
                 }
+                .navigationTitle("Join a room")
             }
         }
+        .background(roomLink)
+    }
+
+    private var roomLink: some View {
+        NavigationLink(isActive: Binding(get: { openRoomId != nil }, set: { if !$0 { openRoomId = nil; openRoom = nil } })) {
+            if let client, let openRoomId, let chat = try? ConvoKitConversation(client: client, conversationId: openRoomId, configuration: .init(showsHeader: false)) {
+                chat.navigationTitle(openRoom?.displayTitle ?? openRoomId).navigationBarTitleDisplayMode(.inline)
+            }
+        } label: {
+            EmptyView()
+        }
+        .hidden()
     }
 
     private func connect() async {
@@ -36,12 +55,12 @@ struct LiveChatView: View {
                 try await DemoBroker.token(userId: userId)
             }
             try await value.connectUser(userId)
-            client = value; connectedRoomId = roomId
+            client = value; openRoom = nil; openRoomId = roomId
         } catch { self.error = error.localizedDescription }
         busy = false
     }
 
-    private func disconnect() { Task { await client?.disconnectUser(); client = nil; connectedRoomId = nil } }
+    private func disconnect() { Task { await client?.disconnectUser(); client = nil; openRoomId = nil; openRoom = nil } }
 }
 
 enum DemoBroker {

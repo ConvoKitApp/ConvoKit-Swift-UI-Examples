@@ -28,7 +28,6 @@ struct DemoRootView: View {
 
             NavigationView {
                 LiveChatView()
-                    .navigationTitle("Join a room")
             }
             .navigationViewStyle(.stack)
             .tabItem { Label(DemoMode.live.title, systemImage: DemoMode.live.icon) }
@@ -68,6 +67,8 @@ struct StandardComponentsView: View {
             ConversationListView(
                 conversations: SampleData.conversations,
                 selectedConversationId: selectedConversation?.id,
+                summaries: SampleData.summaries,
+                currentUserId: "maya",
                 onSelect: { selectedConversation = $0 }
             )
             .navigationTitle("Messages")

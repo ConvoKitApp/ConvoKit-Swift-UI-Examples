@@ -41,6 +41,23 @@ enum SampleData {
         Message(id: "m4", conversationId: launch.id, senderId: maya.appUserId, text: "Perfect. We are cleared for Friday.", createdAt: now.addingTimeInterval(-40)),
     ]
 
+    /// Inbox summaries as `listInbox` would return them for Maya: the newest message, her unread count and read position, and the activity time that orders the list.
+    static let summaries: [String: InboxSummary] = [
+        launch.id: summary(latest: messages[3], read: true),
+        support.id: summary(latest: Message(id: "m5", conversationId: support.id, senderId: alex.appUserId, text: "Can you confirm the refund went through?", createdAt: now.addingTimeInterval(-120)), unread: 2),
+        design.id: summary(latest: Message(id: "m6", conversationId: design.id, senderId: sam.appUserId, media: [.image(name: "onboarding-v2.png", url: "https://cdn.example.com/onboarding-v2.png", size: 204_800)], createdAt: now.addingTimeInterval(-1_800)), unread: 1),
+        incident.id: summary(latest: Message(id: "m7", conversationId: incident.id, senderId: alex.appUserId, text: "Status page updated. Monitoring for another 30 minutes.", createdAt: now.addingTimeInterval(-7_200)), unread: 120),
+        research.id: summary(latest: Message(id: "m8", conversationId: research.id, senderId: maya.appUserId, media: [.file(name: "interview-notes.pdf", url: "https://cdn.example.com/interview-notes.pdf", size: 512_000)], createdAt: now.addingTimeInterval(-86_400)), read: true),
+    ]
+
+    private static func summary(latest: Message, unread: Int = 0, read: Bool = false) -> InboxSummary {
+        InboxSummary(
+            latestMessage: latest, unreadCount: unread,
+            readPosition: read ? ReadPosition(messageId: latest.id, createdAt: latest.createdAt) : nil, lastReadAt: read ? now : nil,
+            activityAt: latest.createdAt
+        )
+    }
+
     static func imageData() -> Data {
         let renderer = UIGraphicsImageRenderer(size: CGSize(width: 800, height: 520))
         return renderer.pngData { context in
