@@ -34,11 +34,14 @@ enum SampleData {
     )
 
     static let conversations = [launch, support, design, incident, research]
+    /// Launch-room history as `getMessages` would return it. Every row carries its content `revision` (0 when created); Maya's captioned
+    /// product shot was edited once after it was sent (`revision: 1`, so `Message.isEdited` is true and the rows render the `Edited` label),
+    /// and its attachment stayed exactly as uploaded, because an edit only replaces the text.
     static let messages = [
-        Message(id: "m1", conversationId: launch.id, senderId: alex.appUserId, text: "The new onboarding is ready for review.", createdAt: now.addingTimeInterval(-420)),
-        Message(id: "m2", conversationId: launch.id, senderId: maya.appUserId, text: "Looks great. I added the latest product shot.", media: [.image(name: "onboarding.png", url: "https://cdn.example.com/onboarding.png", size: 184_320)], createdAt: now.addingTimeInterval(-300)),
-        Message(id: "m3", conversationId: launch.id, senderId: sam.appUserId, text: "Sharing the launch checklist too.", media: [.file(name: "launch-checklist.pdf", url: "https://cdn.example.com/launch-checklist.pdf", size: 923_000)], createdAt: now.addingTimeInterval(-180)),
-        Message(id: "m4", conversationId: launch.id, senderId: maya.appUserId, text: "Perfect. We are cleared for Friday.", createdAt: now.addingTimeInterval(-40)),
+        Message(id: "m1", conversationId: launch.id, senderId: alex.appUserId, text: "The new onboarding is ready for review.", createdAt: now.addingTimeInterval(-420), revision: 0),
+        Message(id: "m2", conversationId: launch.id, senderId: maya.appUserId, text: "Looks great. I added the latest product shot.", media: [.image(name: "onboarding.png", url: "https://cdn.example.com/onboarding.png", size: 184_320)], createdAt: now.addingTimeInterval(-300), updatedAt: now.addingTimeInterval(-240), revision: 1),
+        Message(id: "m3", conversationId: launch.id, senderId: sam.appUserId, text: "Sharing the launch checklist too.", media: [.file(name: "launch-checklist.pdf", url: "https://cdn.example.com/launch-checklist.pdf", size: 923_000)], createdAt: now.addingTimeInterval(-180), revision: 0),
+        Message(id: "m4", conversationId: launch.id, senderId: maya.appUserId, text: "Perfect. We are cleared for Friday.", createdAt: now.addingTimeInterval(-40), revision: 0),
     ]
 
     /// Inbox summaries as `listInbox` would return them for Maya: the newest message, her unread count and read position, her private
@@ -46,10 +49,10 @@ enum SampleData {
     /// is read (count 0) but marked unread, so the default row renders the numberless dot instead of a badge.
     static let summaries: [String: InboxSummary] = [
         launch.id: summary(latest: messages[3], read: true),
-        support.id: summary(latest: Message(id: "m5", conversationId: support.id, senderId: alex.appUserId, text: "Can you confirm the refund went through?", createdAt: now.addingTimeInterval(-120)), unread: 2),
-        design.id: summary(latest: Message(id: "m6", conversationId: design.id, senderId: sam.appUserId, media: [.image(name: "onboarding-v2.png", url: "https://cdn.example.com/onboarding-v2.png", size: 204_800)], createdAt: now.addingTimeInterval(-1_800)), unread: 1),
-        incident.id: summary(latest: Message(id: "m7", conversationId: incident.id, senderId: alex.appUserId, text: "Status page updated. Monitoring for another 30 minutes.", createdAt: now.addingTimeInterval(-7_200)), unread: 120),
-        research.id: summary(latest: Message(id: "m8", conversationId: research.id, senderId: maya.appUserId, media: [.file(name: "interview-notes.pdf", url: "https://cdn.example.com/interview-notes.pdf", size: 512_000)], createdAt: now.addingTimeInterval(-86_400)), read: true, markedUnread: true),
+        support.id: summary(latest: Message(id: "m5", conversationId: support.id, senderId: alex.appUserId, text: "Can you confirm the refund went through?", createdAt: now.addingTimeInterval(-120), revision: 0), unread: 2),
+        design.id: summary(latest: Message(id: "m6", conversationId: design.id, senderId: sam.appUserId, media: [.image(name: "onboarding-v2.png", url: "https://cdn.example.com/onboarding-v2.png", size: 204_800)], createdAt: now.addingTimeInterval(-1_800), revision: 0), unread: 1),
+        incident.id: summary(latest: Message(id: "m7", conversationId: incident.id, senderId: alex.appUserId, text: "Status page updated. Monitoring for another 30 minutes.", createdAt: now.addingTimeInterval(-7_200), revision: 0), unread: 120),
+        research.id: summary(latest: Message(id: "m8", conversationId: research.id, senderId: maya.appUserId, media: [.file(name: "interview-notes.pdf", url: "https://cdn.example.com/interview-notes.pdf", size: 512_000)], createdAt: now.addingTimeInterval(-86_400), revision: 0), read: true, markedUnread: true),
     ]
 
     /// `markedUnread` stamps the private marker (version 1, marked ten minutes ago); `isUnread` follows the wire rule
