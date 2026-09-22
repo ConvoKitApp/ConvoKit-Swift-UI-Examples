@@ -6,7 +6,7 @@ options:
 packages:
   ConvoKit:
     url: https://github.com/ConvoKitApp/ConvoKit-Swift-Package
-    exactVersion: 0.8.0
+    exactVersion: 0.9.0
 targets:
   ConvoKitSwiftExample:
     type: application
@@ -22,8 +22,11 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: app.convokit.examples.swiftui
         PRODUCT_NAME: ConvoKit Swift
+        # The display name has a space in it; naming the module explicitly is
+        # what lets the tests below say `@testable import ConvoKitSwiftExample`.
+        PRODUCT_MODULE_NAME: ConvoKitSwiftExample
         CURRENT_PROJECT_VERSION: 1
-        MARKETING_VERSION: 0.8.0
+        MARKETING_VERSION: 0.9.0
         SWIFT_VERSION: 5.0
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: ConvoKit Swift
@@ -32,10 +35,35 @@ targets:
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         TARGETED_DEVICE_FAMILY: 1
         CODE_SIGNING_ALLOWED: NO
+  ConvoKitSwiftExampleTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - ConvoKitExample/Tests
+    dependencies:
+      - target: ConvoKitSwiftExample
+      - package: ConvoKit
+        product: ConvoKit
+      - package: ConvoKit
+        product: ConvoKitUI
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.convokit.examples.swiftui.tests
+        SWIFT_VERSION: 5.0
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGNING_ALLOWED: NO
+        # The host app's PRODUCT_NAME has a space in it, so the generated
+        # default host path (which follows the target name) does not exist.
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/ConvoKit Swift.app/ConvoKit Swift"
 schemes:
   ConvoKitSwiftExample:
     build:
       targets:
         ConvoKitSwiftExample: all
+        ConvoKitSwiftExampleTests: [test]
     run:
       config: Debug
+    test:
+      config: Debug
+      targets:
+        - ConvoKitSwiftExampleTests

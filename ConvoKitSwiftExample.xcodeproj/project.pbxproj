@@ -10,16 +10,31 @@
 		0C7BEE01ED8C8F1658F05C46 /* DemoRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94617982E561D9CA25C400C /* DemoRootView.swift */; };
 		30A3D79A257898A43E9EFCF8 /* LiveChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BB76DB8F10042F8B438366 /* LiveChatView.swift */; };
 		410AA0C66E28A71FA1FA520D /* ConvoKitSwiftExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F72B9B5C1DA988DD28F578 /* ConvoKitSwiftExampleApp.swift */; };
+		5389BC7404387A8B27C916BB /* ConvoKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8AACE79BF1CD867BAB400878 /* ConvoKit */; };
 		59FC504EBCA3E749D56E0483 /* ConvoKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 381B10AAAEEE72A8B5B905F9 /* ConvoKitUI */; };
+		69377B4BBE539214A4CD2D22 /* ShowcaseRoomTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE943DA86CB0C987EB1363B /* ShowcaseRoomTests.swift */; };
 		845131E2C80718195D473787 /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF594788786EE771AADA3A23 /* SampleData.swift */; };
+		C92751EBC0A0305AFB35F739 /* ConvoKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 7F1A2AB7BE10FD80461E2F93 /* ConvoKitUI */; };
 		CCD3CC6D206733DB8EA5C65F /* ConvoKit in Frameworks */ = {isa = PBXBuildFile; productRef = 276DD5F2D326C6A0BED60392 /* ConvoKit */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F218F4F96A828CA9ED0C117B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E965EC2C0AC5B6BCF61C2D5E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 505A36DE97B2F4C14C030EE5;
+			remoteInfo = ConvoKitSwiftExample;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		0DF6404BC8BDE242CF002A69 /* ConvoKitSwiftExample.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = ConvoKitSwiftExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		31BB76DB8F10042F8B438366 /* LiveChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveChatView.swift; sourceTree = "<group>"; };
 		33F72B9B5C1DA988DD28F578 /* ConvoKitSwiftExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvoKitSwiftExampleApp.swift; sourceTree = "<group>"; };
 		A94617982E561D9CA25C400C /* DemoRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoRootView.swift; sourceTree = "<group>"; };
+		AEE943DA86CB0C987EB1363B /* ShowcaseRoomTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowcaseRoomTests.swift; sourceTree = "<group>"; };
+		BBB7F3CA86BC12E9F3AAEB16 /* ConvoKitSwiftExampleTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = ConvoKitSwiftExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF594788786EE771AADA3A23 /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -33,6 +48,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CFB269AA9190C08EA23E399B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5389BC7404387A8B27C916BB /* ConvoKit in Frameworks */,
+				C92751EBC0A0305AFB35F739 /* ConvoKitUI in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -40,14 +64,25 @@
 			isa = PBXGroup;
 			children = (
 				EA982FB14E47692469612341 /* Sources */,
+				5E248ABB99EF3EC7CCD38BE4 /* Tests */,
 				6717FE5DA3039438D9B35DD8 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		5E248ABB99EF3EC7CCD38BE4 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				AEE943DA86CB0C987EB1363B /* ShowcaseRoomTests.swift */,
+			);
+			name = Tests;
+			path = ConvoKitExample/Tests;
 			sourceTree = "<group>";
 		};
 		6717FE5DA3039438D9B35DD8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				0DF6404BC8BDE242CF002A69 /* ConvoKitSwiftExample.app */,
+				BBB7F3CA86BC12E9F3AAEB16 /* ConvoKitSwiftExampleTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -67,6 +102,27 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		2C72556ADB173CB0B2AF69AE /* ConvoKitSwiftExampleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 900993418C7E2E3DF9335070 /* Build configuration list for PBXNativeTarget "ConvoKitSwiftExampleTests" */;
+			buildPhases = (
+				562804FBE15EEB89F9D69DD7 /* Sources */,
+				CFB269AA9190C08EA23E399B /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B911859D8500B80C2A192712 /* PBXTargetDependency */,
+			);
+			name = ConvoKitSwiftExampleTests;
+			packageProductDependencies = (
+				8AACE79BF1CD867BAB400878 /* ConvoKit */,
+				7F1A2AB7BE10FD80461E2F93 /* ConvoKitUI */,
+			);
+			productName = ConvoKitSwiftExampleTests;
+			productReference = BBB7F3CA86BC12E9F3AAEB16 /* ConvoKitSwiftExampleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		505A36DE97B2F4C14C030EE5 /* ConvoKitSwiftExample */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 88B569692276907E26998E51 /* Build configuration list for PBXNativeTarget "ConvoKitSwiftExample" */;
@@ -116,6 +172,7 @@
 			projectRoot = "";
 			targets = (
 				505A36DE97B2F4C14C030EE5 /* ConvoKitSwiftExample */,
+				2C72556ADB173CB0B2AF69AE /* ConvoKitSwiftExampleTests */,
 			);
 		};
 /* End PBXProject section */
@@ -132,7 +189,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		562804FBE15EEB89F9D69DD7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				69377B4BBE539214A4CD2D22 /* ShowcaseRoomTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B911859D8500B80C2A192712 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 505A36DE97B2F4C14C030EE5 /* ConvoKitSwiftExample */;
+			targetProxy = F218F4F96A828CA9ED0C117B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		9FDE9011631D0D91F9FB2B35 /* Release */ = {
@@ -191,6 +264,25 @@
 			};
 			name = Release;
 		};
+		A12D744D95E219774220F57E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGNING_ALLOWED = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.convokit.examples.swiftui.tests;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ConvoKit Swift.app/ConvoKit Swift";
+			};
+			name = Debug;
+		};
 		B1F103114F8AC08BC9A4651B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -207,8 +299,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.8.0;
+				MARKETING_VERSION = 0.9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = app.convokit.examples.swiftui;
+				PRODUCT_MODULE_NAME = ConvoKitSwiftExample;
 				PRODUCT_NAME = "ConvoKit Swift";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
@@ -279,6 +372,25 @@
 			};
 			name = Debug;
 		};
+		F28C8F3613C97BA9E9295A4A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGNING_ALLOWED = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.convokit.examples.swiftui.tests;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ConvoKit Swift.app/ConvoKit Swift";
+			};
+			name = Release;
+		};
 		FDCF7D14EF1F8D4A5552C462 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -295,8 +407,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.8.0;
+				MARKETING_VERSION = 0.9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = app.convokit.examples.swiftui;
+				PRODUCT_MODULE_NAME = ConvoKitSwiftExample;
 				PRODUCT_NAME = "ConvoKit Swift";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
@@ -312,6 +425,15 @@
 			buildConfigurations = (
 				B1F103114F8AC08BC9A4651B /* Debug */,
 				FDCF7D14EF1F8D4A5552C462 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		900993418C7E2E3DF9335070 /* Build configuration list for PBXNativeTarget "ConvoKitSwiftExampleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A12D744D95E219774220F57E /* Debug */,
+				F28C8F3613C97BA9E9295A4A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -333,7 +455,7 @@
 			repositoryURL = "https://github.com/ConvoKitApp/ConvoKit-Swift-Package";
 			requirement = {
 				kind = exactVersion;
-				version = 0.8.0;
+				version = 0.9.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -348,6 +470,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D1F39639A3ADCF1642348617 /* XCRemoteSwiftPackageReference "ConvoKit-Swift-Package" */;
 			productName = ConvoKitUI;
+		};
+		7F1A2AB7BE10FD80461E2F93 /* ConvoKitUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1F39639A3ADCF1642348617 /* XCRemoteSwiftPackageReference "ConvoKit-Swift-Package" */;
+			productName = ConvoKitUI;
+		};
+		8AACE79BF1CD867BAB400878 /* ConvoKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1F39639A3ADCF1642348617 /* XCRemoteSwiftPackageReference "ConvoKit-Swift-Package" */;
+			productName = ConvoKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

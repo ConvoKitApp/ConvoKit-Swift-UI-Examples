@@ -34,21 +34,45 @@ enum SampleData {
     )
 
     static let conversations = [launch, support, design, incident, research]
-    /// Launch-room history as `getMessages` would return it. Every row carries its content `revision` (0 when created); Maya's captioned
-    /// product shot was edited once after it was sent (`revision: 1`, so `Message.isEdited` is true and the rows render the `Edited` label),
-    /// and its attachment stayed exactly as uploaded, because an edit only replaces the text.
+    /// Launch-room history as `getMessages` would return it, oldest first. It is longer than one page on purpose: the showcase
+    /// renders a WINDOW of it, so a quoted message can sit outside the window and the jump has something to load, the way
+    /// `getMessageContext` does against the backend. Every row carries its content `revision` (0 when created); Maya's captioned
+    /// product shot was edited once after it was sent (`revision: 1`, so `Message.isEdited` is true and the rows render the `Edited`
+    /// label), and its attachment stayed exactly as uploaded, because an edit only replaces the text. Two rows are replies:
+    /// `m14` quotes `m11`, which starts outside the window, and `m15` quotes a message that has since been deleted, so its
+    /// reference survives with no quoted text to show.
     static let messages = [
+        Message(id: "m9", conversationId: launch.id, senderId: alex.appUserId, text: "Kicking off the launch thread.", createdAt: now.addingTimeInterval(-3_600), revision: 0),
+        Message(id: "m10", conversationId: launch.id, senderId: maya.appUserId, text: "I will own the release notes.", createdAt: now.addingTimeInterval(-3_300), revision: 0),
+        Message(id: "m11", conversationId: launch.id, senderId: alex.appUserId, text: "Rollout plan we agreed on: staged release first, then the app stores on Friday.", createdAt: now.addingTimeInterval(-3_000), revision: 0),
+        Message(id: "m12", conversationId: launch.id, senderId: sam.appUserId, text: "Noted. I will watch the dashboards.", createdAt: now.addingTimeInterval(-2_400), revision: 0),
+        Message(id: "m13", conversationId: launch.id, senderId: sam.appUserId, text: "Support is briefed.", createdAt: now.addingTimeInterval(-1_200), revision: 0),
         Message(id: "m1", conversationId: launch.id, senderId: alex.appUserId, text: "The new onboarding is ready for review.", createdAt: now.addingTimeInterval(-420), revision: 0),
         Message(id: "m2", conversationId: launch.id, senderId: maya.appUserId, text: "Looks great. I added the latest product shot.", media: [.image(name: "onboarding.png", url: "https://cdn.example.com/onboarding.png", size: 184_320)], createdAt: now.addingTimeInterval(-300), updatedAt: now.addingTimeInterval(-240), revision: 1),
         Message(id: "m3", conversationId: launch.id, senderId: sam.appUserId, text: "Sharing the launch checklist too.", media: [.file(name: "launch-checklist.pdf", url: "https://cdn.example.com/launch-checklist.pdf", size: 923_000)], createdAt: now.addingTimeInterval(-180), revision: 0),
+        Message(id: "m14", conversationId: launch.id, senderId: maya.appUserId, text: "Still the plan? I will write the notes against it.", createdAt: now.addingTimeInterval(-90), revision: 0, replyToMessageId: "m11"),
+        Message(id: "m15", conversationId: launch.id, senderId: alex.appUserId, text: "Confirmed on my side.", createdAt: now.addingTimeInterval(-60), revision: 0, replyToMessageId: removedQuotedMessageId),
         Message(id: "m4", conversationId: launch.id, senderId: maya.appUserId, text: "Perfect. We are cleared for Friday.", createdAt: now.addingTimeInterval(-40), revision: 0),
     ]
+
+    /// The quoted messages a room store would have batched through `getReplyPreviews` for the parents its window does not hold.
+    /// A preview is the quoted row re-read, never a copy kept at send time: `text` is its first 500 characters (`textTruncated`
+    /// says it was cut), `mediaCount` counts its attachments without listing them, and `revision` is the quoted row as of the read.
+    static let quotedPreviews: [String: ReplyPreview] = [
+        "m11": ReplyPreview(id: "m11", conversationId: launch.id, senderId: alex.appUserId,
+                            text: "Rollout plan we agreed on: staged release first, then the app stores on Friday.",
+                            createdAt: now.addingTimeInterval(-3_000), revision: 0),
+    ]
+
+    /// Quoted by `m15` and deleted since. The backend simply omits a deleted id from a preview batch, which the UI records as
+    /// the terminal "unavailable": the reply keeps its reference and its jump affordance, only the quoted text is gone.
+    static let removedQuotedMessageId = "m-archived"
 
     /// Inbox summaries as `listInbox` would return them for Maya: the newest message, her unread count and read position, her private
     /// mark-unread state (`unreadMarkedAt`, `privateStateVersion`, `isUnread`) and the activity time that orders the list. The research room
     /// is read (count 0) but marked unread, so the default row renders the numberless dot instead of a badge.
     static let summaries: [String: InboxSummary] = [
-        launch.id: summary(latest: messages[3], read: true),
+        launch.id: summary(latest: messages[messages.count - 1], read: true),
         support.id: summary(latest: Message(id: "m5", conversationId: support.id, senderId: alex.appUserId, text: "Can you confirm the refund went through?", createdAt: now.addingTimeInterval(-120), revision: 0), unread: 2),
         design.id: summary(latest: Message(id: "m6", conversationId: design.id, senderId: sam.appUserId, media: [.image(name: "onboarding-v2.png", url: "https://cdn.example.com/onboarding-v2.png", size: 204_800)], createdAt: now.addingTimeInterval(-1_800), revision: 0), unread: 1),
         incident.id: summary(latest: Message(id: "m7", conversationId: incident.id, senderId: alex.appUserId, text: "Status page updated. Monitoring for another 30 minutes.", createdAt: now.addingTimeInterval(-7_200), revision: 0), unread: 120),
