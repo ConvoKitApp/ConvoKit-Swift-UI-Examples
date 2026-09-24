@@ -87,6 +87,33 @@ final class ShowcaseRoom: ObservableObject {
     @Published private(set) var editingMessage: Message?
     @Published private(set) var replyTarget: Message?
     @Published private(set) var replyPreviews: [String: ReplyPreviewState] = [:]
+    @Published private(set) var reactionSummaries: [String: MessageReactionSummary] = [
+        SampleData.messages.last!.id: .init(
+            messageId: SampleData.messages.last!.id,
+            reactions: [.init(emoji: "❤️", count: 2, reactedByMe: false)],
+            hasMore: false
+        )
+    ]
+
+    func toggleReaction(_ message: Message, emoji: String) async -> Bool {
+        var reactions = reactionSummaries[message.id]?.reactions ?? []
+        let existing = reactions.first { $0.emoji == emoji }
+        reactions.removeAll { $0.emoji == emoji }
+        let count = (existing?.count ?? 0) + (existing?.reactedByMe == true ? -1 : 1)
+        if count > 0 { reactions.append(.init(emoji: emoji, count: count, reactedByMe: existing?.reactedByMe != true)) }
+        reactionSummaries[message.id] = .init(messageId: message.id, reactions: reactions, hasMore: false)
+        return true
+    }
+
+    func reactionUsers(_ message: Message, emoji: String, cursor: String?) async throws -> ReactionUsersPage {
+        guard cursor == nil else { return .init(data: [], nextCursor: nil) }
+        var users: [ReactionUser] = []
+        if reactionSummaries[message.id]?.reactions.contains(where: { $0.emoji == emoji && $0.reactedByMe }) == true {
+            users.append(.init(userId: "me", name: "Me", reactedAt: Date()))
+        }
+        users.append(.init(userId: "alex", name: "Alex", reactedAt: Date()))
+        return .init(data: users, nextCursor: nil)
+    }
     @Published private(set) var highlightedMessageId: String?
     @Published private(set) var scrollTarget: String?
     @Published private(set) var hasOlderMessages = false
@@ -367,6 +394,9 @@ private struct NativeConversationScreen: View {
             onCancelReply: { room.cancelReply() },
             replyPreviewByMessageId: room.replyPreviews,
             onJumpToMessage: { room.jump(to: $0) },
+            reactionSummaries: room.reactionSummaries,
+            onToggleReaction: room.toggleReaction,
+            onListReactionUsers: room.reactionUsers,
             highlightedMessageId: room.highlightedMessageId,
             scrollTarget: room.scrollTarget,
             onScrollTargetHandled: { room.scrollTargetHandled() },
@@ -425,6 +455,9 @@ struct BrandedConversationView: View {
                 onCancelReply: { room.cancelReply() },
                 replyPreviewByMessageId: room.replyPreviews,
                 onJumpToMessage: { room.jump(to: $0) },
+                reactionSummaries: room.reactionSummaries,
+                onToggleReaction: room.toggleReaction,
+                onListReactionUsers: room.reactionUsers,
                 highlightedMessageId: room.highlightedMessageId,
                 scrollTarget: room.scrollTarget,
                 onScrollTargetHandled: { room.scrollTargetHandled() },
@@ -493,6 +526,9 @@ struct CompactConversationView: View {
                 onCancelReply: { room.cancelReply() },
                 replyPreviewByMessageId: room.replyPreviews,
                 onJumpToMessage: { room.jump(to: $0) },
+                reactionSummaries: room.reactionSummaries,
+                onToggleReaction: room.toggleReaction,
+                onListReactionUsers: room.reactionUsers,
                 highlightedMessageId: room.highlightedMessageId,
                 scrollTarget: room.scrollTarget,
                 onScrollTargetHandled: { room.scrollTargetHandled() },
@@ -559,6 +595,13 @@ private struct OperationsMessageRow: View {
                 if context.message.replyToMessageId != nil { quoted }
                 Text(context.message.text ?? context.message.media.first?.name ?? "Attachment")
                     .font(.subheadline)
+                if let listUsers = context.listReactionUsers {
+                    ReactionBarView(
+                        summary: context.reactionSummary,
+                        toggle: context.toggleReaction,
+                        listUsers: listUsers
+                    )
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             if context.isEdited {
