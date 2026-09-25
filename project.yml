@@ -6,7 +6,7 @@ options:
 packages:
   ConvoKit:
     url: https://github.com/ConvoKitApp/ConvoKit-Swift-Package
-    exactVersion: 0.10.0
+    exactVersion: 0.10.1
 targets:
   ConvoKitSwiftExample:
     type: application
@@ -26,7 +26,7 @@ targets:
         # what lets the tests below say `@testable import ConvoKitSwiftExample`.
         PRODUCT_MODULE_NAME: ConvoKitSwiftExample
         CURRENT_PROJECT_VERSION: 1
-        MARKETING_VERSION: 0.10.0
+        MARKETING_VERSION: 0.10.1
         SWIFT_VERSION: 5.0
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_CFBundleDisplayName: ConvoKit Swift
